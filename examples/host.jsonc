@@ -1,0 +1,44 @@
+{
+    "type": "host",
+    "remote": "xxx.xxx.xxx.xxx",
+    "root": "/home/somebody",
+    "user": "nobody",
+    "groups": [
+        {
+            "name": "tests",
+            "skipOnFail": true,
+            "jobs": [
+                {
+                    "enabled": true,
+                    "source": "$HOME/Music/",
+                    // user@remote:root/Music
+                    // nobody@xxx.xxx.xxx.xxx:/home/somebody/Music
+                    "destination": "$remotePath/Music",
+                    "command": {
+                        "exec": "rsync",
+                        "args": [
+                            "-avz",
+                            "--progress"
+                        ]
+                    }
+                },
+                {
+                    "enabled": true,
+                    "source": "$HOME/stuff/",
+                    "user": "somebody_else",
+                    // normally ""
+                    "trunk": "$datetime/stuff",
+                    // reference one var from another
+                    // somebody_else@xxx.xxx.xxx.xxx:/home/somebody/2025.../stuff/abc
+                    "destination": "$remotePath/$trunk/abc",
+                    "command": {
+                        "exec": "rsync",
+                        "args": [
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
+

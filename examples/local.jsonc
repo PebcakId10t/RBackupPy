@@ -1,0 +1,57 @@
+{
+    "type": "local",
+    "root": "/mnt/Backup",
+    "groups": [
+        {
+            "name": "things",
+            "skipOnFail": true,
+            "jobs": [
+                {
+                    "enabled": true,
+                    "name": "1",
+                    "source": "$HOME/my things dir/",
+                    "destinationRemote": "another dir",
+                    "command": {
+                        "exec": "scp",
+                        "args": [
+                            "-r"
+                        ]
+                    }
+                // scp -r /$HOME/my things dir/ /mnt/Backup/myhostname/another dir
+                },
+                {
+                    "enabled": true,
+                    "name": "2",
+                    "source": "$HOME/123/456",
+                    "trunk": "",
+                    //"destination": "$remotePath/$trunk/abc",
+                    "destinationRemote": "abc/def",
+                    "command": {
+                        "exec": "rclone",
+                        "subcommand": "copy",
+                        "args": [
+                        ]
+                    }
+                // rclone copy $HOME/123/456 /mnt/Backup/abc/def
+                },
+                {
+                    "enabled": true,
+                    "name": "3",
+                    "source": "/path/to/source/",
+                    // using absolute path and $user and $date vars...
+                    // you can even cheat and add a "remote" path to "local" backups
+                    "destination": "myremote:/path/to/$user/home/$date",
+                    "command": {
+                        "exec": "whatever",
+                        "args": [
+                            "--you",
+                            "w,a,n,t"
+                        ]
+                    }
+                // whatever --you w,a,n,t /path/to/source/ myremote:/path/to/<myusername>/home/<today's date>
+                }
+            ]
+        }
+    ]
+}
+

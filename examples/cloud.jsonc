@@ -1,0 +1,70 @@
+{
+    //If "type" is removed, backup type should still default to cloud because
+    //of "remote" being defined without "user"
+    "type": "cloud",
+    "remote": "remotename",
+    "root": "my/files",
+    "groups": [
+        {
+            "name": "stuff",
+            "skipOnFail": true,
+            "jobs": [
+                {
+                    "enabled": true,
+                    "name": "home",
+                    "source": "$HOME/",
+                    "destinationRemote": "",
+                    "command": {
+                        "exec": "rclone",
+                        "subcommand": "sync",
+                        "args": [
+                            "--update"
+                        ]
+                    }
+                // rclone sync --update $HOME/ remotename:my/files/myhostname/
+                },
+                {
+                    "enabled": true,
+                    "name": "scripts",
+                    "source": "$HOME/bin/",
+                    "destinationRemote": "bin",
+                    "command": {
+                        "exec": "rclone",
+                        "subcommand": "copy",
+                        "args": [
+                        ]
+                    }
+                // rclone copy $HOME/bin/ remotename:my/files/myhostname/bin
+                },
+                {
+                    "enabled": true,
+                    "name": "game saves",
+                    "source": "$HOME/.config/retroarch/saves/",
+                    // override hostname as trunk
+                    "trunk": "Games",
+                    "destinationRemote": "retro/saves",
+                    "command": {
+                        "exec": "rclone",
+                        "subcommand": "copy",
+                        "args": [
+                        ]
+                    }
+                // rclone copy $HOME/.config/retroarch/saves/ remotename:my/files/Games/retro/saves
+                },
+                {
+                    "enabled": true,
+                    "name": "all cloud",
+                    "source": "remote1:path1/",
+                    // absolute path
+                    "destination": "remote2:path2",
+                    "command": {
+                        "exec": "rclone",
+                        "subcommand": "copy"
+                    }
+                // rclone copy remote1:path1/ remote2:path2
+                }
+            ]
+        }
+    ]
+}
+
