@@ -72,7 +72,7 @@ class Job:
 
         self.prereq = []
         if 'prereq' in job:
-            tCount = 1            
+            tCount = 1
             for task in job['prereq']:
                 if 'command' not in task:
                     continue
@@ -113,7 +113,7 @@ class Job:
         commandArgs = self.command.get('args', [])
         if isinstance(commandArgs, str):
             commandArgs = [commandArgs.split()]
-        
+
         # sshLike: takes source and/or destination as user@remote:path, supports -v & -q
         sshLike = re.match("^(.*[\\\\/])?((cw)?rsync|scp|sftp|ssh)(.exe)?$", command)
         isRclone = re.match("^(.*[\\\\/])?rclone(.exe)?$", command)
@@ -158,7 +158,7 @@ class Job:
         remote = config.remote
         remotePath = f"{remote}:{root}" if (remote and config.type != 'local') else f"{root}"
         if config.type == 'host':
-            if sshLike and not re.match("^.*@.*$", remote):
+            if sshLike and not re.match(f"^{user}@.*$", remote):
                 remote = f"{user}@{remote}"
                 remotePath = f"{user}@{remotePath}"
 
