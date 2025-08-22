@@ -115,7 +115,7 @@ def openConfig(args: argparse.Namespace) -> dict:
                 f"No config named '{configName}' in {g_default_config_path} - "
                 f"tried: {names}.  Configs available: {ls}"
             )
-    
+
     with open(configPath, 'r') as file:
         data = file.read()
     config = json.loads(re.sub("//.*", "", data, flags=re.MULTILINE))
@@ -151,9 +151,9 @@ def parseConfig(config: dict, args: argparse.Namespace) -> Config:
 
     remote = config.get('remote', '')
     if re.match('^.*@.*$', remote):
-        user, remote = remote.split('@', 2)
+        user, remote = remote.split('@', 1)
     if re.match('^.*:.*$', remote):
-        remote, root = remote.split(':', 2)
+        remote, root = remote.split(':', 1)
     config['remote'] = remote
     # If user and/or root are present in config['remote'], but not defined
     # separately, we're clear to go ahead and set them here.
@@ -170,9 +170,9 @@ def parseConfig(config: dict, args: argparse.Namespace) -> Config:
     elif 'remote' in args:
         remote = args.remote
         if re.match('^.*@.*$', remote):
-            user, remote = remote.split('@', 2)
+            user, remote = remote.split('@', 1)
         if re.match('^.*:.*$', remote):
-            remote, root = remote.split(':', 2)
+            remote, root = remote.split(':', 1)
         # Need to backfill args.remote so it doesn't overwrite config.remote when
         # we merge the two dicts at the end of this function, otherwise if you
         # use --remote 'user@remote' you get duplicate user (user@user@remote)
